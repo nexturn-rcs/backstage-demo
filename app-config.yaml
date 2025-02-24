@@ -3,7 +3,7 @@ app:
   baseUrl: http://0.0.0.0:3000
 
 organization:
-  name: worldofclouds
+  name: NexTurn
 
 backend:
   # Used for enabling authentication, secret is shared by all backend plugins
@@ -16,7 +16,7 @@ backend:
     allow:
       - host: 'gist.githubusercontent.com'
       - host: 'github.com'
-  baseUrl: http://54.144.32.246:7007
+  baseUrl: http://52.22.63.231:7007
   listen:
     port: 7007
     # Uncomment the following host directive to bind to specific interfaces
@@ -26,7 +26,7 @@ backend:
     # Content-Security-Policy directives follow the Helmet format: https://helmetjs.github.io/#reference
     # Default Helmet Content-Security-Policy values can be removed by setting the key to false
   cors:
-    origin: http://54.144.32.246:3000
+    origin: http://52.22.63.231:3000
     methods: [GET, HEAD, PATCH, POST, PUT, DELETE]
     credentials: true
   # This is for local development only, it is not recommended to use this in production
@@ -76,7 +76,7 @@ auth:
   experimentalExtraAllowedOrigins:
     - 'http://localhost:3000'
     - 'http://127.0.0.1:3000'
-    - 'http://54.144.32.246:3000'
+    - 'http://52.22.63.231:3000'
     - 'http://0.0.0.0:3000'
     - 'http://*.amazonaws.com:3000'
     - 'https://backstage.poc.nexturn.com'
@@ -84,9 +84,9 @@ auth:
     guest: {}
     github:
       development:
-        clientId: '{clientid}'
-        clientSecret: '{secret}'
-        callbackUrl: 'http://54.144.32.246:7007/api/auth/github/handler/frame'
+        clientId: 'Ov23livdtueccnFWgVFu'
+        clientSecret: '7a391adfca8c0e0db1bdb172bf52d672439ff587'
+        callbackUrl: 'http://52.22.63.231:7007/api/auth/github/handler/frame'
         ## uncomment if using GitHub EnterpriseSSSS
         # enterpriseInstanceUrl: ${AUTH_GITHUB_ENTERPRISE_INSTANCE_URL}
         ## uncomment to set lifespan of user session
