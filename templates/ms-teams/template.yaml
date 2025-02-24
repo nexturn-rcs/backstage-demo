@@ -1,0 +1,17 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: ms-teams-demo
+  title: Microsoft Teams message demo
+  description: Send a message via MS Teams
+spec:
+  owner: user:grvpandey11
+  type: service
+
+  steps:
+    - id: send-ms-teams-message
+      name: Send message
+      action: ms-teams:sendMessage
+      input:
+        message: "Hello, world!"
+        webhookUrl: "https://nexturntech.webhook.office.com/webhookb2/654b0c6e-0cbe-4a0b-9adf-0f8740401634@bd87e5b2-8190-4d07-a547-9fc5848b20a4/IncomingWebhook/ae7253020fec4d72a38ae94f1175c36c/a519b068-4a34-4945-8e7d-e6d9bf3d143a/V2CemP-1di11T8K5NgQxw153cYVDtB23xrdP70-k_UwaE1" 

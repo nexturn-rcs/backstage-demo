@@ -1,0 +1,69 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: python-github-repo
+  title: Create Python Repo on GitHub
+  description: Scaffold a Python project and push it to a new GitHub repository
+spec:
+  owner: user:guest
+  type: service
+
+  parameters:
+    - title: GitHub Repository Information
+      required:
+        - repoUrl
+        - owner
+      properties:
+        repoUrl:
+          title: Repository Name
+          type: string
+          description: Name of the new GitHub repository
+        owner:
+          title: Owner
+          type: string
+          description: GitHub organization or username where the repo will be created
+        private:
+          title: Private Repository
+          type: boolean
+          description: Should the repository be private?
+          default: true
+
+    - title: Python Project Info
+      required:
+        - projectName
+      properties:
+        projectName:
+          title: Project Name
+          type: string
+          description: Name of your Python project
+
+  steps:
+    - id: fetch-template
+      name: Fetch Python Skeleton
+      action: fetch:template
+      input:
+        url: ./skeleton
+        targetPath: ./python-project
+        values:
+          projectName: ${{ parameters.projectName }}
+
+    - id: publish-github
+      name: Publish to GitHub
+      action: publish:github
+      input:
+        repoUrl: github.com?owner=${{ parameters.owner }}&repo=${{ parameters.repoUrl }}
+        description: Python project scaffolded by Backstage
+        defaultBranch: main
+        private: ${{ parameters.private }}
+
+    - id: log-success
+      name: Log Success
+      action: debug:log
+      input:
+        message: "✅ Branch protection applied to ${{ parameters.branch }} on github.com/${{ parameters.owner }}/${{ parameters.repoUrl }}"
+
+  output:
+    links:
+      - title: GitHub Repository
+        url: https://github.com/${{ parameters.owner }}/${{ parameters.repoUrl }}
+

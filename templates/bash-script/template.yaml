@@ -1,0 +1,22 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: run-shell-command
+  title: Run Shell Command
+  description: Runs a custom shell command using executeShellCommand
+spec:
+  owner: user:default/kaushik
+  type: service
+
+  steps:
+    - id: shell
+      name: Run Shell Command
+      action: custom:shell-command  # This is the action ID you use
+      input:
+        command: echo
+        args: ["Hello, Backstage!"]
+
+  output:
+    text:
+      - title: Shell Script Executed
+        content: 'The script has been successfully run.'

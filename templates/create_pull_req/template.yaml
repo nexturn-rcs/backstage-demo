@@ -1,0 +1,85 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: github-create-pr
+  title: Create a Pull Request
+  description: Opens a PR on an existing GitHub repository
+spec:
+  owner: user:guest
+  type: service
+
+  parameters:
+    - title: GitHub Repository Information
+      required:
+        - owner
+        - repo
+        - branch
+        - prBranch
+        - prTitle
+        - filePath
+        - fileContent
+      properties:
+        owner:
+          title: Repository Owner
+          type: string
+          description: "GitHub organization or username (e.g., your-org)"
+        repo:
+          title: Repository Name
+          type: string
+          description: "Name of the GitHub repository (e.g., my-repo)"
+        branch:
+          title: Base Branch Name
+          type: string
+          description: "Branch where the PR should be merged (e.g., main)"
+          default: main
+        prBranch:
+          title: New Branch Name
+          type: string
+          description: "Branch for the PR (e.g., feature-branch)"
+        prTitle:
+          title: PR Title
+          type: string
+          description: "Title of the pull request"
+        filePath:
+          title: File Path
+          type: string
+          description: "Path of the file to change (e.g., docs/readme.md)"
+        fileContent:
+          title: File Content
+          type: string
+          description: "Content to add or modify in the file"
+
+  steps:
+    - id: checkout-repo
+      name: Checkout Repository
+      action: fetch:plain
+      input:
+        url: "https://github.com/${{ parameters.owner }}/${{ parameters.repo }}.git"
+        targetPath: "./repo"
+
+    - id: modify-file
+      name: Create or Modify a File
+      action: fetch:template
+      input:
+        url: ./repo
+        targetPath: ./repo
+        values:
+          filePath: ${{ parameters.filePath }}
+          fileContent: ${{ parameters.fileContent }}
+
+    - id: create-pull-request
+      name: Create Pull Request
+      action: publish:github:pull-request
+      input:
+        repoUrl: "github.com?owner=${{ parameters.owner }}&repo=${{ parameters.repo }}"
+        title: ${{ parameters.prTitle }}
+        description: "test pr"  
+        branchName: ${{ parameters.prBranch }}
+        targetBranchName: ${{ parameters.branch }}
+        draft: false
+        update: true 
+
+  output:
+    links:
+      - title: View Pull Request
+        url: "https://github.com/${{ parameters.owner }}/${{ parameters.repo }}/pulls"

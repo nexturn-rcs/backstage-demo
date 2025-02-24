@@ -1,0 +1,70 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: github-branch-protection
+  title: Apply GitHub Branch Protection
+  description: Enforce branch protection rules on an existing GitHub repository
+spec:
+  owner: user:guest
+  type: service
+
+  parameters:
+    - title: GitHub Repository Information
+      required:
+        - repoUrl
+        - owner
+      properties:
+        repoUrl:
+          title: Repository Name
+          type: string
+          description: Name of the new GitHub repository
+        owner:
+          title: Owner
+          type: string
+          description: GitHub organization or username where the repo exists (e.g., my-org)
+
+    - title: Branch Protection Settings
+      properties:
+        branch:
+          title: Branch Name
+          type: string
+          description: "Branch to protect (e.g., main)"
+          default: main
+        requireCodeOwnerReviews:
+          title: Require Code Owner Reviews
+          type: boolean
+          default: true
+        requiredApprovingReviewCount:
+          title: Required Approvals
+          type: integer
+          default: 1
+        enforceAdmins:
+          title: Enforce for Admins
+          type: boolean
+          default: true
+
+  steps:
+    - id: protect-branch
+      name: Apply Branch Protection
+      action: github:branch-protection:create
+      input:
+        repoUrl: "github.com?owner=${{ parameters.owner }}&repo=${{ parameters.repoUrl }}"
+        branch: ${{ parameters.branch }}
+        rules:
+          enforce_admins: ${{ parameters.enforceAdmins }}
+          required_pull_request_reviews:
+            require_code_owner_reviews: ${{ parameters.requireCodeOwnerReviews }}
+            required_approving_review_count: ${{ parameters.requiredApprovingReviewCount }}
+          restrictions: null
+
+    - id: log-success
+      name: Log Success
+      action: debug:log
+      input:
+        message: "✅ Branch protection applied to ${{ parameters.branch }} on github.com/${{ parameters.owner }}/${{ parameters.repoUrl }}"
+
+  output:
+    links:
+      - title: View Repository
+        url: "https://github.com/${{ parameters.owner }}/${{ parameters.repoUrl }}"
+
