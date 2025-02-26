@@ -1,0 +1,27 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: run-shell-command
+  title: Run Shell Command
+  description: Runs a custom shell command provided as input
+spec:
+  owner: user:default/admin
+  type: service
+
+  parameters:
+    - title: Command Execution
+      properties:
+        command:
+          type: string
+          title: Command
+          description: The shell command to execute (e.g., `ls -l`)
+
+  steps:
+    - id: runCommand
+      name: Execute Shell Command
+      action: custom:shell:execute
+      input:
+        command: ${{ parameters.command }}
+
+  output:
+    commandOutput: ${{ steps.runCommand.output.commandOutput }}

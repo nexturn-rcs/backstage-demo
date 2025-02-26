@@ -22,7 +22,7 @@ backend:
 integrations:
   github:
     - host: github.com
-      token: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+      token: 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
 
 proxy:
 
@@ -67,12 +67,17 @@ catalog:
         - allow: [Template] 
 
     - type: file
-      target: /home/ubuntu/backstage/my-backstage-app/templates/ecr-creation/template.yaml
+      target: /home/ubuntu/backstage/my-backstage-app/templates/custom-action/template.yaml
       rules:
         - allow: [Template] 
 
     - type: file
       target: /home/ubuntu/backstage/my-backstage-app/templates/aws-resource-create/template.yaml
+      rules:
+        - allow: [Template] 
+
+    - type: file
+      target: /home/ubuntu/backstage/my-backstage-app/templates/shell-command/template.yaml
       rules:
         - allow: [Template] 
 
