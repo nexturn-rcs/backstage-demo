@@ -22,7 +22,7 @@ backend:
 integrations:
   github:
     - host: github.com
-      token: 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
+      token: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 proxy:
 
